@@ -2,3 +2,5 @@ node_modules/
 dist/
 src/tests/app.test.ts
 src/tests/test-setup.ts
+src/app.ts
+src/main.ts

@@ -37,5 +37,5 @@ const logError = (transaction: Transaction, message: string): void => {
     transaction,
     message,
   };
-  fs.appendFileSync(logFilePath, JSON.stringify(logEntry) + '\n');
+  fs.appendFileSync(logFilePath, `${JSON.stringify(logEntry)}\n`);
 };

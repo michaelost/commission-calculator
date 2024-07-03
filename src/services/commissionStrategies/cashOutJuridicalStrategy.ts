@@ -6,7 +6,7 @@ const CASH_OUT_JURIDICAL_API = `${process.env.BASE_API_URL}/tasks/api/cash-out-j
 
 export class CashOutJuridicalStrategy extends BaseStrategy {
   async calculate(transaction: any): Promise<number> {
-    const config = await axios.get(CASH_OUT_JURIDICAL_API).then(res => res.data);
+    const config = await axios.get(CASH_OUT_JURIDICAL_API).then((res) => res.data);
     const fee = transaction.operation.amount * (config.percents / 100);
     return roundUp(Math.max(fee, 0.50));
   }

@@ -3,4 +3,3 @@ export enum OperationTypes {
   CASH_OUT_NATURAL = 'cash_out:natural',
   CASH_OUT_JURIDICAL = 'cash_out:juridical',
 }
- 

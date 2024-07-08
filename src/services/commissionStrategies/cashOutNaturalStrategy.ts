@@ -1,6 +1,9 @@
 import { BaseStrategy } from '@services/commissionStrategies/baseStrategy';
 import axios from 'axios';
-import { roundUp } from '@utils/helper';
+import { roundUp, isFreeOfChargeDay } from '@utils/helper';
+import CashOutOperations from '@services/CashOutOperations';
+
+const cashOutOps = CashOutOperations.getInstance();
 
 const CASH_OUT_NATURAL_API = `${process.env.BASE_API_URL}/tasks/api/cash-out-natural`;
 
@@ -9,16 +12,20 @@ export class CashOutNaturalStrategy extends BaseStrategy {
     const config = await axios.get(CASH_OUT_NATURAL_API).then((res) => res.data);
     const weekLimit = config.week_limit.amount;
 
-    const weeklyTotal = transactions
-      .filter((tx) => tx.user_id === transaction.user_id && tx.type === 'cash_out')
-      .reduce((sum, tx) => sum + tx.operation.amount, 0);
+    cashOutOps.addOperation(transaction.user_id, transaction.operation.amount, transaction.date);
+    const amountExceeded = cashOutOps.getAmountExceeded(transaction.user_id, transaction.date, weekLimit)
+    const freeOfChargeDay = isFreeOfChargeDay(transaction.date)
 
-    if (weeklyTotal <= weekLimit) {
-      return 0;
+    let fee = 0
+
+    if (freeOfChargeDay) {
+      if (amountExceeded) {
+        fee = Math.min(transaction.operation.amount, amountExceeded) * (config.percents / 100)
+      }
+    } else {
+      fee = Math.min(transaction.operation.amount, amountExceeded) * (config.percents / 100)
     }
 
-    const exceededAmount = Math.max(0, weeklyTotal - weekLimit);
-    const fee = exceededAmount * (config.percents / 100);
     return roundUp(fee);
   }
 }

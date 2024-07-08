@@ -21,7 +21,9 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
+    "hex-encode-decode": "^1.0.0",
     "module-alias": "^2.2.3",
     "tsconfig-paths": "^3.9.0"
   },

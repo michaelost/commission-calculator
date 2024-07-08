@@ -18,6 +18,10 @@ class CashOutOperations {
     return CashOutOperations.instance;
   }
 
+  public resetOperations(): void {
+    this.operations = {};
+  }
+
   public addOperation(userId: string, amount: number, date: string): void {
     const parsedDate = parseISO(date);
     if (!this.operations[userId]) {

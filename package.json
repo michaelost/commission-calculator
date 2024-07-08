@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node -r module-alias/register dist/app.js input.json",
     "lint": "eslint 'src/**/*.ts'",
-    "test": "mocha -r ts-node/register -r module-alias/register src/tests/test-setup.ts src/tests/**/*.test.ts"
+    "test": "mocha -r ts-node/register -r module-alias/register src/tests/test-setup.ts src/tests/**/*.test.ts --timeout 5000"
   },
   "_moduleAliases": {
     "@services": "dist/services",

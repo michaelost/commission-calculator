@@ -1,7 +1,10 @@
-import { parseISO, startOfWeek, endOfWeek, isWithinInterval, format } from 'date-fns';
+import {
+  parseISO, startOfWeek, endOfWeek, isWithinInterval, format,
+} from 'date-fns';
 
 class CashOutOperations {
   private static instance: CashOutOperations;
+
   private operations: { [userId: string]: { amount: number; date: Date }[] };
 
   private constructor() {
@@ -30,11 +33,11 @@ class CashOutOperations {
     }
     const weekInterval = {
       start: startOfWeek(parsedDate, { weekStartsOn: 1 }),
-      end: endOfWeek(parsedDate, { weekStartsOn: 1 })
+      end: endOfWeek(parsedDate, { weekStartsOn: 1 }),
     };
 
     return this.operations[userId]
-      .filter(operation => isWithinInterval(operation.date, weekInterval))
+      .filter((operation) => isWithinInterval(operation.date, weekInterval))
       .reduce((sum, transaction) => sum + transaction.amount, 0);
   }
 
@@ -44,4 +47,4 @@ class CashOutOperations {
   }
 }
 
-export default CashOutOperations
+export default CashOutOperations;

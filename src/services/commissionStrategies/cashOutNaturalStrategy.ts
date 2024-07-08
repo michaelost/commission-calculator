@@ -13,17 +13,17 @@ export class CashOutNaturalStrategy extends BaseStrategy {
     const weekLimit = config.week_limit.amount;
 
     cashOutOps.addOperation(transaction.user_id, transaction.operation.amount, transaction.date);
-    const amountExceeded = cashOutOps.getAmountExceeded(transaction.user_id, transaction.date, weekLimit)
-    const freeOfChargeDay = isFreeOfChargeDay(transaction.date)
+    const amountExceeded = cashOutOps.getAmountExceeded(transaction.user_id, transaction.date, weekLimit);
+    const freeOfChargeDay = isFreeOfChargeDay(transaction.date);
 
-    let fee = 0
+    let fee = 0;
 
     if (freeOfChargeDay) {
       if (amountExceeded) {
-        fee = Math.min(transaction.operation.amount, amountExceeded) * (config.percents / 100)
+        fee = Math.min(transaction.operation.amount, amountExceeded) * (config.percents / 100);
       }
     } else {
-      fee = Math.min(transaction.operation.amount, amountExceeded) * (config.percents / 100)
+      fee = Math.min(transaction.operation.amount, amountExceeded) * (config.percents / 100);
     }
 
     return roundUp(fee);
